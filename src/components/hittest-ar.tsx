@@ -4,23 +4,13 @@ import * as THREE from "three";
 import type { Group } from "three";
 import { ResetContext } from "./reset-context";
 import TempleModel from "./models/temple-model";
-
-interface HitTestARProps {
-  defaultScale?: number;
-  onReticleVisible?: () => void;
-  onModelPlaced?: (isPlaced: boolean) => void;
-}
-
-interface ModelState {
-  position: THREE.Vector3;
-  id: number;
-}
+import type { HittestARProps, ModelState } from "../interface";
 
 const HitTestAR = ({
   defaultScale = 0.3,
   onReticleVisible,
   onModelPlaced,
-}: HitTestARProps) => {
+}: HittestARProps) => {
   const reticleRef = useRef<Group | null>(null);
   const [models, setModels] = useState<ModelState[]>([]);
   const [reticleVisible, setReticleVisible] = useState(true);

@@ -1,7 +1,6 @@
 import { createBrowserRouter } from "react-router-dom";
-import ARPage from "./src/ar-page";
 import Homepage from "./src/homepage";
-import HittestARPage from "./src/hittest-ar-page";
+import ARPage from "./src/ar-page";
 
 export const router = createBrowserRouter([
   {
@@ -11,9 +10,5 @@ export const router = createBrowserRouter([
   {
     path: "/ar",
     element: <ARPage />,
-  },
-  {
-    path: "/hittest-ar",
-    element: <HittestARPage />,
   },
 ]);

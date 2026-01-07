@@ -3,10 +3,16 @@ import type { ComponentType } from "react";
 
 export type AnimationType = "idle" | "run" | "attack" | "anim" | "none";
 
+export interface HittestARProps {
+  defaultScale?: number;
+  onReticleVisible?: () => void;
+  onModelPlaced?: (isPlaced: boolean) => void;
+}
+
 export interface ModelState {
   id: number;
   position: Vector3;
-  animation: AnimationType;
+  animation?: AnimationType;
 }
 
 export interface HitTestARProps {
