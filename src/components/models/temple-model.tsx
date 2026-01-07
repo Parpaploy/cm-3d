@@ -1,17 +1,21 @@
 import * as THREE from "three";
 import { useGLTF } from "@react-three/drei";
+import type { Vector3 } from "three";
 
 interface TempleProps {
+  position: Vector3;
+  rotation: [number, number, number];
   scale: number;
-  position?: [number, number, number];
-  rotation?: [number, number, number];
 }
 
-export default function Temple({ scale, position, rotation }: TempleProps) {
-  const gltf = useGLTF("/models/pagoda.glb");
-  const model = gltf.scene;
+export default function TempleModel({
+  position,
+  rotation,
+  scale,
+}: TempleProps) {
+  const { scene } = useGLTF("/models/pagoda.glb");
 
-  model.traverse((child) => {
+  scene.traverse((child) => {
     if (!(child instanceof THREE.Mesh)) return;
 
     const geometry = child.geometry as THREE.BufferGeometry;
@@ -53,10 +57,10 @@ export default function Temple({ scale, position, rotation }: TempleProps) {
 
   return (
     <primitive
-      object={model}
-      scale={scale}
+      object={scene}
       position={position}
       rotation={rotation}
+      scale={scale}
     />
   );
 }
