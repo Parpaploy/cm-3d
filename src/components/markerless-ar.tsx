@@ -2,20 +2,14 @@ import { Interactive, useHitTest } from "@react-three/xr";
 import { useRef, useState, useEffect } from "react";
 import type { Group, Matrix4, Vector3 } from "three";
 import TempleModel from "./models/temple-model";
+import type { MarkerlessProps } from "../interface";
 
-interface Props {
-  defaultScale?: number;
-  onReticleVisible?: () => void;
-  resetTrigger?: number;
-  onModelPlaced?: (position: Vector3) => void;
-}
-
-const HitTestAR = ({
+const MarkerlessAR = ({
   defaultScale = 0.3,
   onReticleVisible,
   resetTrigger,
   onModelPlaced,
-}: Props) => {
+}: MarkerlessProps) => {
   const reticleRef = useRef<Group>(null);
 
   const [reticleVisible, setReticleVisible] = useState(true);
@@ -94,4 +88,4 @@ const HitTestAR = ({
   );
 };
 
-export default HitTestAR;
+export default MarkerlessAR;

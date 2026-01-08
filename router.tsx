@@ -1,6 +1,6 @@
 import { createBrowserRouter } from "react-router-dom";
 import Homepage from "./src/homepage";
-import ARPage from "./src/ar-page";
+import ARMode from "./src/ar-mode";
 
 export const router = createBrowserRouter([
   {
@@ -9,6 +9,6 @@ export const router = createBrowserRouter([
   },
   {
     path: "/ar",
-    element: <ARPage />,
+    element: <ARMode />,
   },
 ]);

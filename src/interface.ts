@@ -35,3 +35,10 @@ export interface ARSessionInit {
     root: HTMLElement;
   };
 }
+
+export interface MarkerlessProps {
+  defaultScale?: number;
+  onReticleVisible?: () => void;
+  resetTrigger?: number;
+  onModelPlaced?: (position: Vector3) => void;
+}

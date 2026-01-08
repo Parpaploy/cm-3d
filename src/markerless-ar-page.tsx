@@ -2,9 +2,9 @@ import { Canvas } from "@react-three/fiber";
 import { ARButton, XR } from "@react-three/xr";
 import { useEffect, useRef, useState, Suspense } from "react";
 import type { ARSessionInit } from "./interface";
-import HitTestAR from "./components/hittest-ar";
+import MarkerlessAR from "./components/markerless-ar";
 
-export default function HittestAR() {
+export default function MarkerlessARPage() {
   const [isInAR, setIsInAR] = useState(false);
   const [isScanning, setIsScanning] = useState(true);
   const [resetTrigger, setResetTrigger] = useState(0);
@@ -133,7 +133,7 @@ export default function HittestAR() {
         >
           <Suspense fallback={null}>
             {isInAR && (
-              <HitTestAR
+              <MarkerlessAR
                 onReticleVisible={() => setIsScanning(false)}
                 resetTrigger={resetTrigger}
                 onModelPlaced={() => setModelPlaced(true)}
