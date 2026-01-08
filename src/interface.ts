@@ -27,3 +27,11 @@ export interface HitTestARProps {
   onReticleVisible?: () => void;
   onModelPlaced?: (placed: boolean) => void;
 }
+
+export interface ARSessionInit {
+  requiredFeatures: string[];
+  optionalFeatures?: string[];
+  domOverlay?: {
+    root: HTMLElement;
+  };
+}

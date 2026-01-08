@@ -1,108 +1,94 @@
-import { useXRHitTest } from "@react-three/xr";
-import { useRef, useState, useEffect, useContext } from "react";
-import * as THREE from "three";
-import type { Group } from "three";
-import { ResetContext } from "./reset-context";
+import { Interactive, useHitTest } from "@react-three/xr";
+import { useRef, useState, useEffect } from "react";
+import type { Group, Matrix4, Vector3 } from "three";
 import TempleModel from "./models/temple-model";
-import type { HittestARProps, ModelState } from "../interface";
+
+interface Props {
+  defaultScale?: number;
+  onReticleVisible?: () => void;
+  resetTrigger?: number;
+  onModelPlaced?: (position: Vector3) => void;
+}
 
 const HitTestAR = ({
   defaultScale = 0.3,
   onReticleVisible,
+  resetTrigger,
   onModelPlaced,
-}: HittestARProps) => {
-  const reticleRef = useRef<Group | null>(null);
-  const [models, setModels] = useState<ModelState[]>([]);
+}: Props) => {
+  const reticleRef = useRef<Group>(null);
+
   const [reticleVisible, setReticleVisible] = useState(true);
+  const [modelPosition, setModelPosition] = useState<Vector3 | null>(null);
+
   const hasDetectedSurface = useRef(false);
 
-  const resetTrigger = useContext(ResetContext);
-  const prevResetTriggerRef = useRef(resetTrigger);
-
-  useEffect(() => {
-    if (resetTrigger !== prevResetTriggerRef.current) {
-      if (resetTrigger > 0) {
-        setTimeout(() => {
-          setModels([]);
-          setReticleVisible(true);
-          hasDetectedSurface.current = false;
-          onModelPlaced?.(false);
-        }, 0);
-      }
-      prevResetTriggerRef.current = resetTrigger;
-    }
-  }, [resetTrigger, onModelPlaced]);
-
-  useEffect(() => {
-    onModelPlaced?.(models.length > 0);
-  }, [models.length, onModelPlaced]);
-
-  useXRHitTest((hits, getWorldMatrix) => {
+  useHitTest((hitMatrix: Matrix4) => {
     if (!reticleRef.current || !reticleVisible) return;
-    if (hits.length === 0) return;
 
-    const hit = hits[0];
-    const matrix = new THREE.Matrix4();
+    hitMatrix.decompose(
+      reticleRef.current.position,
+      reticleRef.current.quaternion,
+      reticleRef.current.scale
+    );
 
-    const isHit = getWorldMatrix(matrix, hit);
+    reticleRef.current.visible = true;
 
-    if (isHit) {
-      matrix.decompose(
-        reticleRef.current.position,
-        reticleRef.current.quaternion,
-        reticleRef.current.scale
-      );
-
-      reticleRef.current.visible = true;
-
-      if (!hasDetectedSurface.current) {
-        hasDetectedSurface.current = true;
-        onReticleVisible?.();
-      }
+    if (!hasDetectedSurface.current) {
+      hasDetectedSurface.current = true;
+      onReticleVisible?.();
     }
-  }, "viewer");
+  });
 
   const placeModel = () => {
-    if (!reticleRef.current || !reticleVisible) return;
+    if (!reticleRef.current) return;
 
-    const position = reticleRef.current.position.clone();
-    const id = Date.now();
-
-    setModels([{ position, id }]);
+    const pos = reticleRef.current.position.clone();
+    setModelPosition(pos);
     setReticleVisible(false);
+    reticleRef.current.visible = false;
 
-    if (reticleRef.current) {
-      reticleRef.current.visible = false;
-    }
+    onModelPlaced?.(pos);
   };
+
+  useEffect(() => {
+    if (resetTrigger !== undefined) {
+      setTimeout(() => {
+        setModelPosition(null);
+        setReticleVisible(true);
+        hasDetectedSurface.current = false;
+        if (reticleRef.current) reticleRef.current.visible = true;
+      }, 0);
+    }
+  }, [resetTrigger]);
 
   return (
     <>
-      <ambientLight intensity={3} />
-      <directionalLight position={[5, 5, 5]} intensity={0.8} />
+      <ambientLight intensity={2} />
+      <directionalLight position={[5, 5, 5]} />
 
-      {models.map(({ position, id }) => (
-        <group key={id}>
-          <TempleModel
-            position={position}
-            rotation={[0, 0, 0]}
-            scale={defaultScale}
-          />
-        </group>
-      ))}
+      {modelPosition && (
+        <TempleModel
+          position={modelPosition}
+          rotation={[0, 0, 0]}
+          scale={defaultScale}
+        />
+      )}
 
       {reticleVisible && (
-        <group ref={reticleRef} visible={false}>
-          <mesh rotation-x={-Math.PI / 2} onClick={placeModel}>
-            <ringGeometry args={[0.2, 0.3, 32]} />
-            <meshBasicMaterial color="white" opacity={0.5} transparent />
-          </mesh>
+        <Interactive onSelect={placeModel}>
+          <group ref={reticleRef} visible={false}>
+            <mesh rotation-x={-Math.PI / 2}>
+              <ringGeometry args={[0.2, 0.3, 32]} />
+              <meshBasicMaterial color="white" transparent opacity={0.5} />
+            </mesh>
 
-          <mesh rotation-x={-Math.PI / 2} visible={false} onClick={placeModel}>
-            <circleGeometry args={[0.5, 32]} />
-            <meshBasicMaterial />
-          </mesh>
-        </group>
+            <mesh rotation-x={-Math.PI / 2} position={[0, 0.01, 0]}>
+              <planeGeometry args={[0.6, 0.6]} />
+              <meshBasicMaterial visible={false} />
+            </mesh>
+          </group>
+        </Interactive>
       )}
     </>
   );
