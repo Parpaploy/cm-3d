@@ -3,6 +3,10 @@ import { ARButton, XR } from "@react-three/xr";
 import { useEffect, useRef, useState, Suspense } from "react";
 import type { ARSessionInit } from "./interface";
 import MarkerlessAR from "./components/markerless-ar";
+import { useTranslation } from "react-i18next";
+import LanguageButton from "./components/lang-btn";
+import Navbar from "./navbar";
+import { useNavigate } from "react-router-dom";
 
 export default function MarkerlessARPage() {
   const [isInAR, setIsInAR] = useState(false);
@@ -12,10 +16,21 @@ export default function MarkerlessARPage() {
 
   const overlayRef = useRef<HTMLDivElement>(null);
   const xrSessionRef = useRef<XRSession | null>(null);
+  const navigator = useNavigate();
 
   const [sessionInit, setSessionInit] = useState<ARSessionInit>({
     requiredFeatures: ["hit-test"],
   });
+
+  const { t } = useTranslation();
+
+  const handleExitAR = () => {
+    if (xrSessionRef.current) {
+      xrSessionRef.current.end();
+    }
+
+    navigator("/");
+  };
 
   useEffect(() => {
     if (overlayRef.current) {
@@ -33,11 +48,23 @@ export default function MarkerlessARPage() {
   };
 
   return (
-    <>
+    <div className="relative svw min-h-screen flex flex-col justify-center items-center mx-auto max-w-[430px]">
+      <div
+        className="absolute top-0 left-0 w-full h-full pointer-events-none"
+        style={{
+          backgroundImage: 'url("/imgs/bg.svg")',
+          backgroundRepeat: "no-repeat",
+          backgroundPosition: "center 20%",
+          backgroundSize: "cover",
+        }}
+      />
+
       <div ref={overlayRef} className="fixed inset-0 pointer-events-none z-50">
+        {isInAR && <Navbar onBack={handleExitAR} />}
+
         {isInAR && isScanning && (
-          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-white text-xl">
-            Scanning...
+          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-white text-xl pointer-events-none">
+            {t("scanning")}
           </div>
         )}
 
@@ -50,73 +77,40 @@ export default function MarkerlessARPage() {
               bottom: 70,
               left: "50%",
               transform: "translateX(-50%)",
-              padding: "10px 20px",
-              backgroundColor: "red",
-              color: "white",
               pointerEvents: "auto",
             }}
+            className="mt-20 bg-[#B7663B] text-[20px] rounded-full py-2 px-10 font-bold text-white"
           >
-            Reset Model
+            {t("reset")}
           </button>
         )}
       </div>
 
-      {!isInAR && (
-        <button
-          onClick={() => document.getElementById("ar-button")?.click()}
-          style={{
-            position: "fixed",
-            zIndex: 1000,
-            bottom: 20,
-            left: "50%",
-            transform: "translateX(-50%)",
-            padding: "10px 20px",
-          }}
-        >
-          Enter AR
-        </button>
-      )}
+      <div className="rounded-t-[83px] text-center absolute bottom-0 left-0 py-25 px-10 w-full h-[70%] bg-[linear-gradient(180deg,#FFEFCB_0%,#FFCC9F_100%)]">
+        {!isInAR && (
+          <>
+            <h1
+              className="text-[#723D0F] text-[25px] font-bold mb-3"
+              dangerouslySetInnerHTML={{ __html: t("header") }}
+            />
 
-      {isInAR && (
-        <button
-          onClick={handleReset}
-          style={{
-            position: "fixed",
-            zIndex: 1000,
-            bottom: 70,
-            left: "50%",
-            transform: "translateX(-50%)",
-            padding: "10px 20px",
-            backgroundColor: "red",
-            color: "white",
-            pointerEvents: "auto",
-          }}
-        >
-          Reset Model
-        </button>
-      )}
+            <LanguageButton />
+
+            <button
+              onClick={() => document.getElementById("ar-button")?.click()}
+              className="mt-20 bg-[#B7663B] text-[20px] rounded-full py-2 px-10 font-bold text-white"
+            >
+              {t("start")}
+            </button>
+          </>
+        )}
+      </div>
 
       <ARButton
         id="ar-button"
         sessionInit={sessionInit}
         className="absolute opacity-0 pointer-events-none"
       />
-
-      {!isInAR && (
-        <button
-          onClick={() => document.getElementById("ar-button")?.click()}
-          style={{
-            position: "absolute",
-            zIndex: 10,
-            bottom: 20,
-            left: "50%",
-            transform: "translateX(-50%)",
-            padding: "10px 20px",
-          }}
-        >
-          Enter AR
-        </button>
-      )}
 
       <Canvas className="fixed inset-0" gl={{ alpha: true }}>
         <XR
@@ -142,6 +136,6 @@ export default function MarkerlessARPage() {
           </Suspense>
         </XR>
       </Canvas>
-    </>
+    </div>
   );
 }

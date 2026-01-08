@@ -1,7 +1,7 @@
 import { Canvas } from "@react-three/fiber";
 import { Leva, useControls } from "leva";
 import Ar from "./components/ar";
-import { useNavigate } from "react-router-dom";
+import Navbar from "./navbar";
 
 const ARPage: React.FC = () => {
   const controls = useControls({
@@ -30,7 +30,7 @@ const ARPage: React.FC = () => {
       step: 0.1,
     },
     posY: {
-      value: -1,
+      value: -1.3,
       min: -10,
       max: 10,
       step: 0.1,
@@ -61,18 +61,9 @@ const ARPage: React.FC = () => {
     controls.posZ,
   ];
 
-  const navigator = useNavigate();
-
   return (
     <div className="w-svw h-svh relative">
-      <button
-        className="absolute top-0 left-0 pointer-events-auto z-999"
-        onClick={() => {
-          navigator("/");
-        }}
-      >
-        Home
-      </button>
+      <Navbar />
 
       <Leva
         collapsed
