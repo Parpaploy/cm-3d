@@ -2,5 +2,6 @@
   "header": "The Complete Stupa of Wat Chedi Luang",
   "start": "Start",
   "scanning": "Scanning...",
-  "reset": "Reset"
+  "reset": "Reset",
+  "loading": "Loading..."
 }
