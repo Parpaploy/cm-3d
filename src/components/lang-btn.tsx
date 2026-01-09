@@ -3,9 +3,15 @@ import { useState } from "react";
 
 function LanguageButton() {
   const { i18n } = useTranslation();
-  const [lang, setLang] = useState(i18n.language || "en");
 
   type Language = "en" | "th";
+
+  const getInitialLang = (): Language => {
+    if (i18n.language.startsWith("th")) return "th";
+    return "en";
+  };
+
+  const [lang, setLang] = useState<Language>(getInitialLang());
 
   const handleChange = (selectedLang: Language) => {
     setLang(selectedLang);
