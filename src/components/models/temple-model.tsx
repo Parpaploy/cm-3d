@@ -13,7 +13,8 @@ export default function TempleModel({
   rotation,
   scale,
 }: TempleProps) {
-  const { scene } = useGLTF("/models/pagoda.glb");
+  // const { scene } = useGLTF("/models/pagoda.glb");
+  const { scene } = useGLTF("/models/วัดเจดีย์หลวงวรวิหาร_001.glb");
 
   scene.traverse((child) => {
     if (!(child instanceof THREE.Mesh)) return;
@@ -65,4 +66,4 @@ export default function TempleModel({
   );
 }
 
-useGLTF.preload("/models/pagoda.glb");
+useGLTF.preload("/models/วัดเจดีย์หลวงวรวิหาร_001.glb");

@@ -8,7 +8,9 @@ interface TempleProps {
 }
 
 export default function Temple({ scale, position, rotation }: TempleProps) {
-  const gltf = useGLTF("/models/pagoda.glb");
+  // const gltf = useGLTF("/models/pagoda.glb");
+  const gltf = useGLTF("/models/วัดเจดีย์หลวงวรวิหาร_001.glb");
+
   const model = gltf.scene;
 
   model.traverse((child) => {
@@ -61,4 +63,4 @@ export default function Temple({ scale, position, rotation }: TempleProps) {
   );
 }
 
-useGLTF.preload("/models/pagoda.glb");
+useGLTF.preload("/models/วัดเจดีย์หลวงวรวิหาร_001.glb");
