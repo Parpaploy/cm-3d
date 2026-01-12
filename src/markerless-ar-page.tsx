@@ -48,7 +48,7 @@ export default function MarkerlessARPage() {
   };
 
   return (
-    <div className="relative svw min-h-svh flex flex-col justify-center items-center mx-auto max-w-[430px]">
+    <div className="relative svw min-h-svh flex flex-col justify-center items-center mx-auto max-w-107.5">
       <div
         className="absolute top-0 left-0 w-full h-full pointer-events-none"
         style={{

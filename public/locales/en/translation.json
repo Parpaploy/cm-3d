@@ -3,5 +3,6 @@
   "start": "Start",
   "scanning": "Scanning...",
   "reset": "Reset",
-  "loading": "Loading..."
+  "loading": "Loading...",
+  "hide-ui": "Double tap to hide UI"
 }

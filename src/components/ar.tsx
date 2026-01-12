@@ -3,12 +3,7 @@ import * as THREE from "three";
 import { THREEx } from "@ar-js-org/ar.js-threejs";
 import { useFrame, useThree } from "@react-three/fiber";
 import Temple from "./models/temple";
-
-interface ArProps {
-  rotation: [number, number, number];
-  position: [number, number, number];
-  scale: number;
-}
+import type { ArProps } from "../interface";
 
 const Ar: React.FC<ArProps> = ({ rotation, position, scale }) => {
   const { camera, gl } = useThree();

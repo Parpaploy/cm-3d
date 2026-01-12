@@ -42,3 +42,9 @@ export interface MarkerlessProps {
   resetTrigger?: number;
   onModelPlaced?: (position: Vector3) => void;
 }
+
+export interface ArProps {
+  rotation: [number, number, number];
+  position: [number, number, number];
+  scale: number;
+}
