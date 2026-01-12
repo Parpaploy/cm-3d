@@ -23,11 +23,39 @@ export default function Temple({ scale, position, rotation }: TempleProps) {
       ? child.material
       : [child.material];
 
+    // const newMaterials = materials.map((mat) => {
+    //   if (mat instanceof THREE.MeshStandardMaterial) {
+    //     const cloned = mat.clone();
+    //     cloned.roughness = 1;
+    //     cloned.metalness = 0.5;
+
+    //     if (!hasUV) {
+    //       cloned.map = null;
+    //       cloned.normalMap = null;
+    //       cloned.roughnessMap = null;
+    //       cloned.metalnessMap = null;
+    //     }
+
+    //     return cloned;
+    //   }
+
+    //   return new THREE.MeshStandardMaterial({
+    //     color:
+    //       (mat as THREE.Material & { color?: THREE.Color }).color ??
+    //       new THREE.Color(0xffffff),
+    //     roughness: 1,
+    //     metalness: 0,
+    //   });
+    // });
+
     const newMaterials = materials.map((mat) => {
       if (mat instanceof THREE.MeshStandardMaterial) {
         const cloned = mat.clone();
         cloned.roughness = 1;
         cloned.metalness = 0.5;
+
+        cloned.transparent = true;
+        cloned.opacity = 0.5;
 
         if (!hasUV) {
           cloned.map = null;
@@ -39,13 +67,17 @@ export default function Temple({ scale, position, rotation }: TempleProps) {
         return cloned;
       }
 
-      return new THREE.MeshStandardMaterial({
+      const fallback = new THREE.MeshStandardMaterial({
         color:
           (mat as THREE.Material & { color?: THREE.Color }).color ??
           new THREE.Color(0xffffff),
         roughness: 1,
         metalness: 0,
+        transparent: true,
+        opacity: 0.5,
       });
+
+      return fallback;
     });
 
     child.material = Array.isArray(child.material)
