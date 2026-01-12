@@ -30,7 +30,7 @@ const ARPage: React.FC = () => {
       step: 0.1,
     },
     posY: {
-      value: -1.3,
+      value: 0.3,
       min: -10,
       max: 10,
       step: 0.1,
@@ -42,7 +42,7 @@ const ARPage: React.FC = () => {
       step: 0.1,
     },
     scale: {
-      value: 0.7,
+      value: 0.3,
       min: 0.1,
       max: 5,
       step: 0.1,
