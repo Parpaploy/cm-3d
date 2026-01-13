@@ -4,8 +4,17 @@ import { THREEx } from "@ar-js-org/ar.js-threejs";
 import { useFrame, useThree } from "@react-three/fiber";
 import Temple from "./models/temple";
 import type { ArProps } from "../interface";
+import TemplePart from "./models/temple-part";
 
-const Ar: React.FC<ArProps> = ({ rotation, position, scale }) => {
+const Ar: React.FC<ArProps> = ({
+  rotation,
+  position,
+  scale,
+  rotation2,
+  position2,
+  scale2,
+  isOpen,
+}) => {
   const { camera, gl } = useThree();
   const arSourceRef = useRef<InstanceType<
     typeof THREEx.ArToolkitSource
@@ -135,8 +144,14 @@ const Ar: React.FC<ArProps> = ({ rotation, position, scale }) => {
       {/* rotation={[0.5, 2.35, 0]} */}
       {/* scale={0.7} */}
 
-      <group position={position} rotation={rotation}>
-        <Temple scale={scale} />
+      {isOpen && (
+        <group position={position} rotation={rotation}>
+          <Temple scale={scale} />
+        </group>
+      )}
+
+      <group position={position2} rotation={rotation2}>
+        <TemplePart scale={scale2} />
       </group>
       <ambientLight intensity={1.5} />
       <directionalLight position={[2, 5, 3]} intensity={2} />

@@ -9,7 +9,7 @@ interface TempleProps {
 
 export default function Temple({ scale, position, rotation }: TempleProps) {
   // const gltf = useGLTF("/models/pagoda.glb");
-  const gltf = useGLTF("/models/วัดเจดีย์หลวงวรวิหาร_001.glb");
+  const gltf = useGLTF("/models/วัดเจดีย์หลวงวรวิหาร.glb");
 
   const model = gltf.scene;
 
@@ -55,7 +55,7 @@ export default function Temple({ scale, position, rotation }: TempleProps) {
         cloned.metalness = 0.5;
 
         cloned.transparent = true;
-        cloned.opacity = 0.5;
+        cloned.opacity = 0.3;
 
         if (!hasUV) {
           cloned.map = null;
@@ -74,7 +74,7 @@ export default function Temple({ scale, position, rotation }: TempleProps) {
         roughness: 1,
         metalness: 0,
         transparent: true,
-        opacity: 0.5,
+        opacity: 0.3,
       });
 
       return fallback;
@@ -95,4 +95,4 @@ export default function Temple({ scale, position, rotation }: TempleProps) {
   );
 }
 
-useGLTF.preload("/models/วัดเจดีย์หลวงวรวิหาร_001.glb");
+useGLTF.preload("/models/วัดเจดีย์หลวงวรวิหาร.glb");
