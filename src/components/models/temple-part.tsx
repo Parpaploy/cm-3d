@@ -9,7 +9,7 @@ interface TempleProps {
 
 export default function TemplePart({ scale, position, rotation }: TempleProps) {
   // const gltf = useGLTF("/models/pagoda.glb");
-  const gltf = useGLTF("/models/วัดเจดีย์หลวงวรวิหาร_ส่วนบนเจดีย์.glb");
+  const gltf = useGLTF("/models/วัดเจดีย์หลวงวรวิหารTop.glb");
 
   const model = gltf.scene;
 
@@ -63,4 +63,4 @@ export default function TemplePart({ scale, position, rotation }: TempleProps) {
   );
 }
 
-useGLTF.preload("/models/วัดเจดีย์หลวงวรวิหาร_ส่วนบนเจดีย์.glb");
+useGLTF.preload("/models/วัดเจดีย์หลวงวรวิหารTop.glb");

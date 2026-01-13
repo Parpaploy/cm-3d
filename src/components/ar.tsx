@@ -132,10 +132,6 @@ const Ar: React.FC<ArProps> = ({ isOpen }) => {
 
   return (
     <>
-      {/* position={[0, -1, -1]} */}
-      {/* rotation={[0.5, 2.35, 0]} */}
-      {/* scale={0.7} */}
-
       {isOpen && (
         <group position={[0, 0.7, -1]} rotation={[-0.2, 2.35, 0]}>
           <Temple scale={0.5} />
