@@ -44,11 +44,5 @@ export interface MarkerlessProps {
 }
 
 export interface ArProps {
-  rotation: [number, number, number];
-  position: [number, number, number];
-  scale: number;
-  rotation2: [number, number, number];
-  position2: [number, number, number];
-  scale2: number;
   isOpen: boolean;
 }

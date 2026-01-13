@@ -6,15 +6,7 @@ import Temple from "./models/temple";
 import type { ArProps } from "../interface";
 import TemplePart from "./models/temple-part";
 
-const Ar: React.FC<ArProps> = ({
-  rotation,
-  position,
-  scale,
-  rotation2,
-  position2,
-  scale2,
-  isOpen,
-}) => {
+const Ar: React.FC<ArProps> = ({ isOpen }) => {
   const { camera, gl } = useThree();
   const arSourceRef = useRef<InstanceType<
     typeof THREEx.ArToolkitSource
@@ -145,13 +137,13 @@ const Ar: React.FC<ArProps> = ({
       {/* scale={0.7} */}
 
       {isOpen && (
-        <group position={position} rotation={rotation}>
-          <Temple scale={scale} />
+        <group position={[0, 0.7, -1]} rotation={[-0.2, 2.35, 0]}>
+          <Temple scale={0.5} />
         </group>
       )}
 
-      <group position={position2} rotation={rotation2}>
-        <TemplePart scale={scale2} />
+      <group position={[0, 0.7, -1]} rotation={[-0.2, 0.6, 0]}>
+        <TemplePart scale={0.5} />
       </group>
       <ambientLight intensity={1.5} />
       <directionalLight position={[2, 5, 3]} intensity={2} />

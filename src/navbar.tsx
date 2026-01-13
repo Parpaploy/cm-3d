@@ -28,7 +28,7 @@ function Navbar({
       </button>
 
       <button
-        className="text-[30px] z-999 pointer-events-auto"
+        className="text-[48px] z-999 pointer-events-auto"
         onClick={() => {
           setIsOpen(!isOpen);
         }}
